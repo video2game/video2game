@@ -1,0 +1,28 @@
+root_dir = /home/hongchix/main/root/datasets/360_v2/garden/
+dataset_name = colmap
+
+exp_name = gardenvase
+batch_size = 1024
+scale = 8.0
+num_epochs = 150
+downsample = 0.25
+
+render_rgb = True
+render_depth = True
+depth_mono = False
+
+### render derived normal or not
+render_normal = True
+normal_mono = False
+normal_ref = True
+
+### render semantic labels or not, set to False if no g.t. semantic labels
+render_semantic = False
+
+### appearance embeddings
+embed_a = False
+
+random_bg = True
+
+### contraction
+contraction_type = 'Sphere'

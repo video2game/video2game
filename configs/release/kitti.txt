@@ -1,0 +1,32 @@
+root_dir = /home/hongchix/main/root/datasets/KITTI-360/
+dataset_name = kitti
+exp_name = 7606-7665-contract
+batch_size = 1024
+scale = 8.0
+num_epochs = 150
+
+kitti_seq = 0
+kitti_start = 7606
+kitti_end = 7665
+kitti_test_id = [7610, 7620, 7630, 7640, 7650, 7660]
+
+render_rgb = True
+render_depth = True
+depth_mono = False
+
+### render derived normal or not
+render_normal = True
+normal_mono = False
+normal_ref = True
+
+### render semantic labels or not, set to False if no g.t. semantic labels
+render_semantic = True
+
+### appearance embeddings
+embed_a = True
+embed_a_len = 8
+
+random_bg = True
+
+### contraction
+contraction_type='Sphere'

@@ -1,0 +1,9 @@
+# ninja log v5
+1	34072	1693212965908740367	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/binding.o	ca1f2d2a58d0fa88
+1	81223	1693213013086492516	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/intersection.o	b40a110bcd02e6bc
+66	32546	1693213250708715916	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/binding.o	ca1f2d2a58d0fa88
+66	96612	1693213314796836306	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/losses.o	afb1c286871a97ec
+32569	113784	1693213331969154384	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/raymarching.o	734dd8e908d9e6a
+96619	176885	1693213395062284626	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/ref_loss.o	9d31cea53c24428e
+113784	190021	1693213408205151661	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/volumerendering.o	e2713811a456e174
+94	18516	1693214285787625431	/projects/perception/personals/hongchix/codes/outdoor_relighting_nerf/models/csrc/build/temp.linux-x86_64-cpython-37/binding.o	ca1f2d2a58d0fa88
