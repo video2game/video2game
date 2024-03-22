@@ -2,3 +2,8 @@ _scripts/
 _configs/
 .idea/
 __pycache__/
+game_dev/assets/
+game_dev/.vscode
+game_dev/nerf_models
+game_dev/node_modules
+game_dev/blender_files

@@ -9,6 +9,7 @@ import trimesh
 
 import warnings; warnings.filterwarnings("ignore")
 import pickle5 as pickle
+import plyfile
 
 from models.tcngp import TCNGP
 
@@ -314,11 +315,9 @@ if __name__ == '__main__':
             cv2.imwrite(os.path.join(export_path, f'feat1_{cas}.png'), feats1)
 
         # save obj (v, vt, f /)
-        obj_file = os.path.join(export_path, f'mesh_{cas}.obj')
-        mtl_file = os.path.join(export_path, f'mesh_{cas}.mtl')
+        mesh_file = os.path.join(export_path, f'mesh_{cas}.ply')
 
         # relocation for kitti loop
-
         if hparams.dataset_name == 'kitti' and hparams.kitti_reloc:
             with open(os.path.join(f'results/{hparams.dataset_name}/{hparams.exp_name}', 'pos_trans.pkl'),  'rb') as f:
                 pos_trans = pickle.load(f)
@@ -336,33 +335,36 @@ if __name__ == '__main__':
                 print('center pos_trans: ', pos_trans)
             v_np = (v_np - center) / scale - 0.5 * forward
         
-        print(f'[INFO] writing obj mesh to {obj_file}')
-        with open(obj_file, "w") as fp:
+        print(f'[INFO] writing obj mesh to {mesh_file}')
 
-            fp.write(f'mtllib mesh_{cas}.mtl \n')
 
-            print(f'[INFO] writing vertices {v_np.shape}')
-            for v in v_np:
-                fp.write(f'v {v[0]} {v[1]} {v[2]} \n')
+        num_verts = v_np.shape[0]
+        num_faces = f_np.shape[0]
 
-            print(f'[INFO] writing vertices texture coords {vt_np.shape}')
-            for v in vt_np:
-                fp.write(f'vt {v[0]} {1 - v[1]} \n')
+        verts_tuple = np.zeros((num_verts,), dtype=[("x", "f4"), ("y", "f4"), ("z", "f4")])
 
-            print(f'[INFO] writing faces {f_np.shape}')
-            fp.write(f'usemtl defaultMat \n')
-            for i in range(len(f_np)):
-                fp.write(f"f {f_np[i, 0] + 1}/{ft_np[i, 0] + 1} {f_np[i, 1] + 1}/{ft_np[i, 1] + 1} {f_np[i, 2] + 1}/{ft_np[i, 2] + 1} \n")
+        for i in range(0, num_verts):
+            verts_tuple[i] = tuple(v_np[i, :])
 
-        with open(mtl_file, "w") as fp:
-            fp.write(f'newmtl defaultMat \n')
-            fp.write(f'Ka 1 1 1 \n')
-            fp.write(f'Kd 1 1 1 \n')
-            fp.write(f'Ks 0 0 0 \n')
-            fp.write(f'Tr 1 \n')
-            fp.write(f'illum 1 \n')
-            fp.write(f'Ns 0 \n')
-            fp.write(f'map_Kd feat0_{cas}.png \n')
+        faces_building = []
+        vt[:, 1] = 1 - vt[:, 1]
+        for i in range(0, num_faces):
+            faces_building.append(((f_np[i, :].tolist(), vt[ft[i, :]].reshape(-1).tolist())))
+        faces_tuple = np.array(faces_building, dtype=[("vertex_indices", "i4", (3,)), ("texcoord", "f4", (6,))])
+
+        el_verts = plyfile.PlyElement.describe(verts_tuple, "vertex")
+        el_faces = plyfile.PlyElement.describe(faces_tuple, "face")
+
+        ply_data = plyfile.PlyData([el_verts, el_faces])
+        ply_filename_out = './mesh_0.ply'
+        print("saving mesh to %s" % (ply_filename_out))
+        ply_data.write(ply_filename_out)
+
+        plydata = plyfile.PlyData.read('./mesh_0.ply')
+        print(plydata.elements[1].name)
+        print(plydata.elements[1].properties)
+        print(plydata.elements[1].data[0])
+
 
 
     vts = []

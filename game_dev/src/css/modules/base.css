@@ -1,0 +1,34 @@
+/* Base */
+
+body {
+	background-color: #ffffff;
+	overflow: hidden;
+	margin: 0;
+	font-family: 'Solway', serif;
+	color: white;
+	user-select: none;
+	text-shadow: 1px 1px 1px #000, 0px 1px 3px #000;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+h1 {
+	font-weight: 400;
+	font-size: 50px;
+	font-family: 'Alfa Slab One', cursive;
+}
+
+#canvas {
+	width: 1296px;
+	height: 840px;
+}
+
+#ui-container {
+	position: absolute;
+	top: 0;
+	height: 100vh;
+}

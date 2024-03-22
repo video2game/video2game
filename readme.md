@@ -114,6 +114,27 @@ Contact [Hongchi Xia](mailto:xiahongchi@sjtu.edu.cn) if you have any further que
 Our codebase builds heavily on [ngp-pl](https://github.com/kwea123/ngp_pl) and [nerf2mesh](https://github.com/ashawkey/nerf2mesh). Thanks for open-sourcing!.
 
 ## Game Development
-Please refer to our live demo at [Project Page](https://video2game.github.io/).
+
+Please check the subdirectory `game_dev/`.
+
+To install:
+
+```
+npm install
+npm install --save @types/three
+```
+Then run by `npm run dev`
+
+To configure the scene:
+
+* simple game
+You need to manually set the config lines in `game_dev/src/ts/world/World.ts` at Line 111, including screen size, intrinsics, and two important variables: 
+1. `rendering_meshes` contains the directory that holds textures, mesh and MLP. It will then be fed into function `init_uvmapping()`.
+2. `collision_models` contains the directory that holds convex decompostion results including `center.json` and `decomp.glb`.  It will then be fed into function `init_convex_collision()`. 
+
+* more interactive
+TO-DO
+
+For more features, please refer to our live demo at [Project Page](https://video2game.github.io/), especially the gardenvase one, link [here](https://video2game.github.io/src/garden/index.html).
 
 Basically, based on the textured mesh, the MLP shader and the generated collision models, one can design one's own game in three.js following our example demo.  
