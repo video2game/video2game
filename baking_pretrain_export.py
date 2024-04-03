@@ -255,7 +255,6 @@ if __name__ == '__main__':
                     tail = min(head + chunk_size, xyzs.shape[0])
                     with torch.cuda.amp.autocast(enabled=False):
                         slice_xyzs = xyzs[head:tail].clone().detach().cuda()
-                        torch.Tensor()
                         all_feats[head:tail] = color_model.geo_feat(slice_xyzs, make_contract=True).cpu().float()
                         slice_xyzs = slice_xyzs.cpu()
                         del slice_xyzs
@@ -263,7 +262,7 @@ if __name__ == '__main__':
 
                 feats[mask] = all_feats
 
-        feats = feats.view(h, w, -1) # 6 channels
+        feats = feats.view(h, w, -1)
         mask = mask.view(h, w)
 
         # we might need antialias here
@@ -297,22 +296,36 @@ if __name__ == '__main__':
             feats[tuple(inpaint_coords.T)] = feats[tuple(search_coords[indices[:, 0]].T)]
 
         # ssaa
-        feats0 = cv2.cvtColor(feats[..., :3], cv2.COLOR_RGB2BGR) 
-        feats1 = cv2.cvtColor(feats[..., 3:], cv2.COLOR_RGB2BGR) 
+        if hparams.baking_specular_dim == 0:
+            feats0 = cv2.cvtColor(feats[..., :3], cv2.COLOR_RGB2BGR)
+            if ssaa > 1:
+                feats0 = cv2.resize(feats0, (w0, h0), interpolation=cv2.INTER_LINEAR)
+            cas = cas if hparams.texture_export_cas is None else hparams.texture_export_cas
+            os.makedirs(export_path, exist_ok=True)
+            if hparams.texture_compress != 0:
+                png_compression_level = hparams.texture_compress
+                cv2.imwrite(os.path.join(export_path, f'diffuse_{cas}.png'), feats0,
+                            [int(cv2.IMWRITE_PNG_COMPRESSION), png_compression_level])
+            else:
+                cv2.imwrite(os.path.join(export_path, f'diffuse_{cas}.png'), feats0)
 
-        if ssaa > 1:
-            feats0 = cv2.resize(feats0, (w0, h0), interpolation=cv2.INTER_LINEAR)
-            feats1 = cv2.resize(feats1, (w0, h0), interpolation=cv2.INTER_LINEAR)
-            
-        cas = cas if hparams.texture_export_cas is None else hparams.texture_export_cas
-        os.makedirs(export_path, exist_ok=True)
-        if hparams.texture_compress != 0:
-            png_compression_level = hparams.texture_compress
-            cv2.imwrite(os.path.join(export_path, f'feat0_{cas}.png'), feats0, [int(cv2.IMWRITE_PNG_COMPRESSION), png_compression_level])
-            cv2.imwrite(os.path.join(export_path, f'feat1_{cas}.png'), feats1, [int(cv2.IMWRITE_PNG_COMPRESSION), png_compression_level])
         else:
-            cv2.imwrite(os.path.join(export_path, f'feat0_{cas}.png'), feats0)
-            cv2.imwrite(os.path.join(export_path, f'feat1_{cas}.png'), feats1)
+            feats0 = cv2.cvtColor(feats[..., :3], cv2.COLOR_RGB2BGR)
+            feats1 = cv2.cvtColor(feats[..., 3:], cv2.COLOR_RGB2BGR)
+
+            if ssaa > 1:
+                feats0 = cv2.resize(feats0, (w0, h0), interpolation=cv2.INTER_LINEAR)
+                feats1 = cv2.resize(feats1, (w0, h0), interpolation=cv2.INTER_LINEAR)
+
+            cas = cas if hparams.texture_export_cas is None else hparams.texture_export_cas
+            os.makedirs(export_path, exist_ok=True)
+            if hparams.texture_compress != 0:
+                png_compression_level = hparams.texture_compress
+                cv2.imwrite(os.path.join(export_path, f'feat0_{cas}.png'), feats0, [int(cv2.IMWRITE_PNG_COMPRESSION), png_compression_level])
+                cv2.imwrite(os.path.join(export_path, f'feat1_{cas}.png'), feats1, [int(cv2.IMWRITE_PNG_COMPRESSION), png_compression_level])
+            else:
+                cv2.imwrite(os.path.join(export_path, f'feat0_{cas}.png'), feats0)
+                cv2.imwrite(os.path.join(export_path, f'feat1_{cas}.png'), feats1)
 
         # save obj (v, vt, f /)
         mesh_file = os.path.join(export_path, f'mesh_{cas}.ply')
@@ -466,17 +479,18 @@ if __name__ == '__main__':
     
     
     # save mlp as json
-    params = dict(color_model.specular_net.named_parameters())
+    if hparams.baking_specular_dim > 0:
+        params = dict(color_model.specular_net.named_parameters())
 
-    mlp = {}
-    for k, p in params.items():
-        p_np = p.detach().cpu().numpy().T
-        print(f'[INFO] wrting MLP param {k}: {p_np.shape}')
-        mlp[k] = p_np.tolist()
+        mlp = {}
+        for k, p in params.items():
+            p_np = p.detach().cpu().numpy().T
+            print(f'[INFO] wrting MLP param {k}: {p_np.shape}')
+            mlp[k] = p_np.tolist()
 
-    mlp['bound'] = color_model.scale
-    mlp['cascade'] = mesh_cascades
+        mlp['bound'] = color_model.scale
+        mlp['cascade'] = mesh_cascades
 
-    mlp_file = os.path.join(export_path, f'mlp.json')
-    with open(mlp_file, 'w') as fp:
-        json.dump(mlp, fp, indent=2)
+        mlp_file = os.path.join(export_path, f'mlp.json')
+        with open(mlp_file, 'w') as fp:
+            json.dump(mlp, fp, indent=2)

@@ -250,7 +250,7 @@ class ColmapDataset(BaseDataset):
         if kwargs.get('depth_mono', False):
             depth_paths = []
             for name in img_names:
-                depth_file_name = os.path.basename(name) + ".npy"
+                depth_file_name = os.path.splitext(os.path.basename(name))[0] + ".npy"
                 depth_paths.append(os.path.join(self.root_dir, depths_dir, depth_file_name))
         
         self.rays = []

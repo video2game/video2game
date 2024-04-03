@@ -3,6 +3,7 @@ exp_name="gardenvase"
 # normal_mono activate normal prior
 # depth_mono activate depth prior
 # render_semantic activate semantic/instance MLP learning
+# num_classes specify the number of classes
 
 python train.py --config configs/release/garden.txt \
   --exp_name ${exp_name} \
@@ -15,6 +16,7 @@ python train.py --config configs/release/garden.txt \
   --depth_mono \
   --nerf_lambda_depth_mono 1e-2 \
   --render_semantic \
+  --num_classes 2 \
   --ngp_gridsize 128 \
   --scale_factor 1.0 \
   --ngp_F 8 --ngp_F_ 8 --ngp_log2_T 19 --ngp_log2_T_ 21 \

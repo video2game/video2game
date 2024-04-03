@@ -65,11 +65,11 @@ class TCNGP(nn.Module):
             })
 
         self.specular_dim = specular_dim
-        
+
         self.color_net = MLP(self.encoder_color.n_output_dims, 3 + specular_dim, color_net_params["dim_hidden"], color_net_params["num_layers"], bias=False)
-        
-        self.specular_net = MLP(specular_dim + 3, 3, specular_dim_mlp, 2, bias=False)
-        
+        if self.specular_dim > 0:
+            self.specular_net = MLP(specular_dim + 3, 3, specular_dim_mlp, 2, bias=False)
+
     def geo_feat(self, x, c=None, make_contract=False):
         
         if make_contract:
@@ -97,7 +97,7 @@ class TCNGP(nn.Module):
         geo_feat = self.geo_feat(x, c)
         diffuse = geo_feat[..., :3]
 
-        if shading == 'diffuse':
+        if shading == 'diffuse' or self.specular_dim == 0:
             color = diffuse
             specular = None
         else: 

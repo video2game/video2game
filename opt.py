@@ -257,7 +257,7 @@ def get_opts():
     # mesh extraction: output label
     parser.add_argument('--mesh_output_label', type=str, default="")
 
-    # mesh extraction: mesh seperation parameters
+    # mesh extraction: mesh separation parameters
     parser.add_argument('--extract_mesh_sem_filter_negative',  action='store_true') # sem_filter_negative
     parser.add_argument('--extract_mesh_bbox_src', type=str, default=None)
     parser.add_argument('--extract_mesh_generate_semantic_boundary',  action='store_true')

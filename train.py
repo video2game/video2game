@@ -684,10 +684,12 @@ if __name__ == '__main__':
                               save_last=True,
                               save_on_train_epoch_end=True)
     callbacks = [ckpt_cb, TQDMProgressBar(refresh_rate=1)]
-    wandb.init(dir="/home/hongchix/scratch/wandb")
+    os.makedirs("./.wandb", exist_ok=True)
+    os.makedirs(f"./.wandb/{hparams.dataset_name}", exist_ok=True)
+    wandb.init(dir="./.wandb")
     logger = WandbLogger(
         project='video2game',
-        save_dir=f"/home/hongchix/scratch/wandb/{hparams.dataset_name}",
+        save_dir=f"./.wandb/{hparams.dataset_name}",
         name=hparams.exp_name)
 
     trainer = Trainer(max_epochs=hparams.num_epochs,

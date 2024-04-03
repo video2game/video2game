@@ -88,7 +88,7 @@ def save_outputs(img_path, save_path):
         trans_topil(output.squeeze(0)).save(save_path)
 
 
-names = [png_name for png_name in sorted(os.listdir(args.source_dir)) if png_name[-4:] in ['.JPG', '.png', '.jpg', 'jpeg']]
+names = [png_name for png_name in sorted(os.listdir(args.source_dir)) if os.path.splitext(png_name)[1] in ['.JPG', '.png', '.jpg', '.jpeg']]
 source_paths = [os.path.join(args.source_dir, name) for name in names]
 os.makedirs(args.output_dir, exist_ok=True)
 output_paths = [os.path.join(args.output_dir, name) for name in names]

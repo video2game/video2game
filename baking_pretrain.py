@@ -571,10 +571,10 @@ if __name__ == '__main__':
                               save_on_train_epoch_end=True)
     
     callbacks = [ckpt_cb, TQDMProgressBar(refresh_rate=1), ExportCallback()]
-
+    os.makedirs("./wandb", exist_ok=True)
     logger = WandbLogger(
         project='video2game_baking',
-        save_dir=f"/home/hongchix/scratch/wandb",
+        save_dir=f"./wandb",
         name=hparams.exp_name)
     
     trainer = Trainer(max_epochs=hparams.num_epochs,
