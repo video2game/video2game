@@ -559,6 +559,13 @@ if __name__ == '__main__':
     global_var._init()
     if hparams.val_only and (not hparams.ckpt_path):
         raise ValueError('You need to provide a @ckpt_path for validation!')
+
+    os.makedirs("./wandb", exist_ok=True)
+    logger = WandbLogger(
+        project='video2game_baking',
+        save_dir=f"./wandb",
+        name=hparams.exp_name)
+
     system = BakingSystem(hparams)
 
     hparams.num_epochs = system.hparams.num_epochs
@@ -571,12 +578,7 @@ if __name__ == '__main__':
                               save_on_train_epoch_end=True)
     
     callbacks = [ckpt_cb, TQDMProgressBar(refresh_rate=1), ExportCallback()]
-    os.makedirs("./wandb", exist_ok=True)
-    logger = WandbLogger(
-        project='video2game_baking',
-        save_dir=f"./wandb",
-        name=hparams.exp_name)
-    
+
     trainer = Trainer(max_epochs=hparams.num_epochs,
                       check_val_every_n_epoch=hparams.num_epochs,
                       callbacks=callbacks,

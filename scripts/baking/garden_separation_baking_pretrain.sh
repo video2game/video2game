@@ -2,9 +2,10 @@ workspace="example"
 mesh_output_label_0="subpart_0"
 mesh_output_label_1="subpart_1"
 exp_name="gardenvase"
+ROOT_DIR="/home/hongchix/main/root/datasets/360_v2/garden"
 
 python baking_pretrain.py --config configs/release/garden.txt \
-    --ckpt_load ckpts/colmap/${exp_name}/last.ckpt  \
+    --root_dir ${ROOT_DIR} \
     --lr 0.005 --baking_iters 20000 \
     --workspace ${workspace} \
     --load_mesh_paths \

@@ -15,6 +15,7 @@ python extract_mesh.py --config configs/release/garden.txt \
     --extract_mesh_partition_x 3 \
     --extract_mesh_partition_y 3 \
     --extract_mesh_partition_z 3 \
+    --extract_mesh_cropN 256 \
     --ngp_F 8 \
     --ngp_F_ 8 \
     --ngp_log2_T 19 \
@@ -56,6 +57,7 @@ python extract_mesh.py --config configs/release/garden.txt \
     --extract_mesh_partition_x 3 \
     --extract_mesh_partition_y 3 \
     --extract_mesh_partition_z 3 \
+    --extract_mesh_cropN 512 \
     --ngp_F 8 \
     --ngp_F_ 8 \
     --ngp_log2_T 19 \

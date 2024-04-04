@@ -22,3 +22,5 @@ xatlas~=0.0.7
 scikit-learn~=1.0.2
 pytorch-lightning~=1.8.0
 timm==0.6.13
+ninja~=1.11
+pyfqmr
