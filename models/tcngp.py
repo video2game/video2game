@@ -69,6 +69,8 @@ class TCNGP(nn.Module):
         self.color_net = MLP(self.encoder_color.n_output_dims, 3 + specular_dim, color_net_params["dim_hidden"], color_net_params["num_layers"], bias=False)
         if self.specular_dim > 0:
             self.specular_net = MLP(specular_dim + 3, 3, specular_dim_mlp, 2, bias=False)
+            for p in self.specular_net.parameters():
+                p.data.fill_(0)
 
     def geo_feat(self, x, c=None, make_contract=False):
         
