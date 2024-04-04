@@ -8,7 +8,8 @@ output_label=${exp_name}_${mesh_output_label_0}
 python baking_pretrain_export.py --config configs/release/garden.txt \
     --root_dir ${ROOT_DIR} \
     --exp_name ${exp_name} \
-    --texture_export_substitude_mesh results/colmap/${exp_name}/${exp_name}_${mesh_output_label_0}.ply \
+    --texture_export_substitude_mesh \
+    --load_mesh_paths results/colmap/${exp_name}/${exp_name}_${mesh_output_label_0}.ply \
     --tcngp_F 8 \
     --tcngp_log2_T 21 \
     --texture_size 4096 \
@@ -29,7 +30,8 @@ output_label=${exp_name}_${mesh_output_label_1}
 python baking_pretrain_export.py --config configs/release/garden.txt \
     --root_dir ${ROOT_DIR} \
     --exp_name ${exp_name} \
-    --texture_export_substitude_mesh results/colmap/${exp_name}/${exp_name}_${mesh_output_label_1}.ply \
+    --texture_export_substitude_mesh \
+    --load_mesh_paths results/colmap/${exp_name}/${exp_name}_${mesh_output_label_1}.ply \
     --tcngp_F 8 \
     --tcngp_log2_T 21 \
     --texture_size 4096 \

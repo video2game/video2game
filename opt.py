@@ -304,7 +304,7 @@ def get_opts():
     parser.add_argument('--texture_erode', type=int, default=2) # n2m_test_erode
     parser.add_argument('--texture_export_cas', type=int, default=None) # n2m_test_export_cas
     parser.add_argument('--texture_boundary_input_label', type=str, default=None) # n2m_test_boundary_input
-    parser.add_argument('--texture_export_substitude_mesh', type=str, default=None) # n2m_substitude_mesh
+    parser.add_argument('--texture_export_substitude_mesh', action='store_true') # n2m_substitude_mesh
 
     # baking: for texture finetuning
     parser.add_argument('--baking_noft_sky',  action='store_true') # n2m_noft_sky
