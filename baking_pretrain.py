@@ -304,8 +304,7 @@ class BakingSystem(LightningModule):
             self.criterion = rl1
             
         self.psnr = PeakSignalNoiseRatio(data_range=1)
-        
-        self.hparams.num_epochs = int(np.ceil(self.hparams.baking_iters / self.train_dataset.epoch_length_baking))
+        self.train_dataset.epoch_length_baking = self.hparams.baking_iters
 
     def export_stage1(self):
 
@@ -488,7 +487,7 @@ class BakingSystem(LightningModule):
         
 
     def configure_optimizers(self):
-        opts = []
+        # opts = []
 
         self.net_opt = Adam([{'params': self.color_model.encoder_color.parameters(), 'initial_lr': self.hparams.lr}], self.hparams.lr, eps=1e-8)
         self.net_opt.add_param_group({
@@ -505,16 +504,22 @@ class BakingSystem(LightningModule):
             'weight_decay': self.hparams.weight_decay,
             'eps': 1e-8
         })
-        opts += [self.net_opt]
+        # self.net_opt
         
-        sches = []
+        # sches = []
         net_sch = CosineAnnealingLR(self.net_opt,
-                                    self.hparams.num_epochs,
+                                    self.hparams.baking_iters,
                                     self.hparams.lr/self.hparams.lr_decay,
                                     last_epoch=-1)  
-        sches += [net_sch]
+        # net_sch
 
-        return opts, sches
+        return {
+            "optimizer": self.net_opt,
+            "lr_scheduler": {
+                "scheduler": net_sch,
+                "interval": "step",
+            },
+        }
 
     def train_dataloader(self):
         self.train_dataset.ray_sampling_strategy = 'single_image'
@@ -568,19 +573,17 @@ if __name__ == '__main__':
 
     system = BakingSystem(hparams)
 
-    hparams.num_epochs = system.hparams.num_epochs
-
     ckpt_cb = ModelCheckpoint(dirpath=f'ckpts/{hparams.dataset_name}/{hparams.exp_name}/baking/{"base" if hparams.workspace is None else f"{hparams.workspace}"}',
                               filename=hparams.ckpt_save.split('.')[0],
                               save_weights_only=True,
-                              every_n_epochs=100,
+                              every_n_epochs=1,
                               save_last=True,
                               save_on_train_epoch_end=True)
     
     callbacks = [ckpt_cb, TQDMProgressBar(refresh_rate=1), ExportCallback()]
 
-    trainer = Trainer(max_epochs=hparams.num_epochs,
-                      check_val_every_n_epoch=hparams.num_epochs,
+    trainer = Trainer(max_epochs=1,
+                      check_val_every_n_epoch=1,
                       callbacks=callbacks,
                       logger=logger,
                       enable_model_summary=False,
