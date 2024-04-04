@@ -66,6 +66,10 @@ pip install models/csrc/
 ```
 pip install git+https://github.com/NVlabs/nvdiffrast/
 ```
+* Install pymesh
+```
+pip install https://github.com/PyMesh/PyMesh/releases/download/v0.3/pymesh2-0.3-cp37-cp37m-linux_x86_64.whl
+```
 * Install other python libraries
 ``` 
 pip install -r requirements.txt
@@ -92,7 +96,7 @@ We use normal and depth priors generated from [Omnidata](https://github.com/EPFL
 
 For the commands to generate priors, please:
 1. Download pretrained models by `bash scripts/priors/prior_download_ckpt.sh`.
-2. Change directory to `./priors` then refer to `scripts/priors/depth_prior.sh` and `scripts/priors/normal_prior.sh` in this repo.
+2. Refer to `scripts/priors/depth_prior.sh` and `scripts/priors/normal_prior.sh` in this repo.
 
 #### Semantic/Instance Priors
 * Object mask 

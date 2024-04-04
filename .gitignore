@@ -7,3 +7,5 @@ game_dev/.vscode
 game_dev/nerf_models
 game_dev/node_modules
 game_dev/blender_files
+models/csrc/build/
+scripts/slurm/

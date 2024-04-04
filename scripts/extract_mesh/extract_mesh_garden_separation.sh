@@ -1,8 +1,10 @@
 exp_name="gardenvase"
 mesh_output_label="subpart_0"
+ROOT_DIR="/home/hongchix/main/root/datasets/360_v2/garden"
 
 python extract_mesh.py --config configs/release/garden.txt \
     --exp_name ${exp_name} \
+    --root_dir ${ROOT_DIR} \
     --ngp_gridsize 128 \
     --extract_mesh_scale_x_min 0. \
     --extract_mesh_scale_x_max 1. \
@@ -18,6 +20,7 @@ python extract_mesh.py --config configs/release/garden.txt \
     --ngp_log2_T 19 \
     --ngp_log2_T_ 21 \
     --ckpt_load ckpts/colmap/${exp_name}/last.ckpt \
+    --num_classes 2 \
     --mesh_output_label ${mesh_output_label} \
     --center_extract_mesh \
     --mesh_post_process \
@@ -42,6 +45,7 @@ mesh_output_label="subpart_1"
 
 python extract_mesh.py --config configs/release/garden.txt \
     --exp_name ${exp_name} \
+    --root_dir ${ROOT_DIR} \
     --ngp_gridsize 128 \
     --extract_mesh_scale_x_min 0. \
     --extract_mesh_scale_x_max 1. \
@@ -57,6 +61,7 @@ python extract_mesh.py --config configs/release/garden.txt \
     --ngp_log2_T 19 \
     --ngp_log2_T_ 21 \
     --ckpt_load ckpts/colmap/${exp_name}/last.ckpt \
+    --num_classes 2 \
     --mesh_output_label ${mesh_output_label} \
     --center_extract_mesh \
     --mesh_post_process \

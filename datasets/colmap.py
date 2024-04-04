@@ -293,16 +293,17 @@ class ColmapDataset(BaseDataset):
         self.poses = torch.FloatTensor(self.poses)  # (N_images, 3, 4)
 
         # load images
-        print(f'Loading {len(img_paths)} {split} images from {folder}...')
-        for img_path in tqdm(img_paths):
-            buf = []  # buffer for ray attributes: rgb, etc
+        if kwargs.get('load_imgs', True):
+            print(f'Loading {len(img_paths)} {split} images from {folder}...')
+            for img_path in tqdm(img_paths):
+                buf = []  # buffer for ray attributes: rgb, etc
 
-            img = read_image(img_path, self.img_wh)
-            buf += [torch.FloatTensor(img)]
+                img = read_image(img_path, self.img_wh)
+                buf += [torch.FloatTensor(img)]
 
-            self.rays += [torch.cat(buf, 1)]
+                self.rays += [torch.cat(buf, 1)]
 
-        self.rays = torch.stack(self.rays)  # (N_images, hw, ?)
+            self.rays = torch.stack(self.rays)  # (N_images, hw, ?)
 
         # loading normal, depth priors and semantics when training 
         if split != 'test':

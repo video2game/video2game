@@ -25,6 +25,7 @@ python extract_mesh.py --config configs/release/garden.txt \
     --center_decimate_target 5000000 \
     --filter_box 8 \
     --center_level 50 \
+    --num_classes 2 \
     --level 1 \
     --extract_mesh_partition_offset 0.01 \
     --mesh_postprocess_clean_f 1000 \
