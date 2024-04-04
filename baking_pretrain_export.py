@@ -142,7 +142,7 @@ if __name__ == '__main__':
     vertices = torch.tensor(vertices).cuda()
     triangles = torch.tensor(triangles).cuda().int()
 
-    glctx = dr.RasterizeGLContext(output_db=False)
+    glctx = dr.RasterizeCudaContext()
     
     assert hparams.baking_output is not None, "you must assign a export directory"
     export_path = os.path.join(workspace, hparams.baking_output)

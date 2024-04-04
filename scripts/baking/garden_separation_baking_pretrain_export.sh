@@ -1,9 +1,12 @@
+ROOT_DIR="/home/hongchix/main/root/datasets/360_v2/garden"
+
 workspace="example"
 mesh_output_label_0="subpart_0"
 exp_name="gardenvase"
 output_label=${exp_name}_${mesh_output_label_0}
 
 python baking_pretrain_export.py --config configs/release/garden.txt \
+    --root_dir ${ROOT_DIR} \
     --exp_name ${exp_name} \
     --texture_export_substitude_mesh results/colmap/${exp_name}/${exp_name}_${mesh_output_label_0}.ply \
     --tcngp_F 8 \
@@ -24,6 +27,7 @@ exp_name="gardenvase"
 output_label=${exp_name}_${mesh_output_label_1}
 
 python baking_pretrain_export.py --config configs/release/garden.txt \
+    --root_dir ${ROOT_DIR} \
     --exp_name ${exp_name} \
     --texture_export_substitude_mesh results/colmap/${exp_name}/${exp_name}_${mesh_output_label_1}.ply \
     --tcngp_F 8 \
