@@ -497,13 +497,14 @@ class BakingSystem(LightningModule):
             'weight_decay': self.hparams.weight_decay,
             'eps': 1e-8
         })
-        self.net_opt.add_param_group({
-            'params': self.color_model.specular_net.parameters(),
-            'initial_lr': self.hparams.lr,
-            'lr': self.hparams.lr,
-            'weight_decay': self.hparams.weight_decay,
-            'eps': 1e-8
-        })
+        if hasattr(self.color_model, 'specular_net'):
+            self.net_opt.add_param_group({
+                'params': self.color_model.specular_net.parameters(),
+                'initial_lr': self.hparams.lr,
+                'lr': self.hparams.lr,
+                'weight_decay': self.hparams.weight_decay,
+                'eps': 1e-8
+            })
         # self.net_opt
         
         # sches = []
