@@ -366,9 +366,9 @@ if __name__ == '__main__':
             verts_tuple[i] = tuple(v_np[i, :])
 
         faces_building = []
-        vt[:, 1] = 1 - vt[:, 1]
+        vt_np[:, 1] = 1 - vt_np[:, 1]
         for i in range(0, num_faces):
-            faces_building.append(((f_np[i, :].tolist(), vt[ft[i, :]].reshape(-1).tolist())))
+            faces_building.append(((f_np[i, :].tolist(), vt_np[ft_np[i, :]].reshape(-1).tolist())))
         faces_tuple = np.array(faces_building, dtype=[("vertex_indices", "i4", (3,)), ("texcoord", "f4", (6,))])
 
         el_verts = plyfile.PlyElement.describe(verts_tuple, "vertex")
