@@ -209,10 +209,12 @@ if __name__ == '__main__':
         mask = (mask > 0).view(-1).cpu()
 
         # auto-completion for the boundary in mesh seperation
-        if mask.any() and hparams.texture_boundary_input_label is not None and os.path.exists(hparams.texture_boundary_input_label):
+        if hparams.texture_boundary_input_label is not None:
+            boundary_save_path = f'results/{hparams.dataset_name}/{hparams.exp_name}/{hparams.exp_name}_{hparams.texture_boundary_input_label}.pkl'
+        if mask.any() and hparams.texture_boundary_input_label is not None and os.path.exists(boundary_save_path):
             # the same contraction used in nerf training
             xyzs_mask_contract = contract(xyzs[mask], ngp_aabb.to(xyzs.device), hparams.contraction_type)
-            with open(hparams.texture_boundary_input_label, 'rb') as f_bound:
+            with open(boundary_save_path, 'rb') as f_bound:
                 boundary_dict = pickle.load(f_bound)
                 boundary = boundary_dict["boundary"]
                 global_voxel_size = boundary_dict["global_voxel_size"]
