@@ -375,16 +375,9 @@ if __name__ == '__main__':
         el_faces = plyfile.PlyElement.describe(faces_tuple, "face")
 
         ply_data = plyfile.PlyData([el_verts, el_faces])
-        ply_filename_out = './mesh_0.ply'
+        ply_filename_out = mesh_file
         print("saving mesh to %s" % (ply_filename_out))
         ply_data.write(ply_filename_out)
-
-        plydata = plyfile.PlyData.read('./mesh_0.ply')
-        print(plydata.elements[1].name)
-        print(plydata.elements[1].properties)
-        print(plydata.elements[1].data[0])
-
-
 
     vts = []
     fts = []
