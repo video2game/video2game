@@ -213,6 +213,7 @@ if __name__ == '__main__':
             boundary_save_path = f'results/{hparams.dataset_name}/{hparams.exp_name}/{hparams.exp_name}_{hparams.texture_boundary_input_label}.pkl'
         if mask.any() and hparams.texture_boundary_input_label is not None and os.path.exists(boundary_save_path):
             # the same contraction used in nerf training
+
             xyzs_mask_contract = contract(xyzs[mask], ngp_aabb.to(xyzs.device), hparams.contraction_type)
             with open(boundary_save_path, 'rb') as f_bound:
                 boundary_dict = pickle.load(f_bound)

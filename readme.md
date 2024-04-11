@@ -260,7 +260,7 @@ You need to manually set the config lines in `game_dev/src/ts/world/World.ts` at
 
 * more interactive
 
-Becaused of the limitation of Cannon.js, the physical simulation with the exported assets requires lots of more labarious task. We recommend that use Unreal Engine for easier game development instead.
+Becaused of the limitation of Cannon.js, the physical simulation with the exported assets requires lots of labarious tasks. We thus recommend that use Unreal Engine for easier game development instead.
 
 For more features like vase falling in Three.js engine, please refer to our live demo at [Project Page](https://video2game.github.io/), especially the gardenvase one, link [here](https://video2game.github.io/src/garden/index.html).
 
