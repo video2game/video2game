@@ -31,7 +31,7 @@ CVPR 2024
 - [ ] GPT-4 Query
 
 
-## Enviornment
+## Environment
 
 ### Python libraries
 * Create conda environment
